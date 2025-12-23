@@ -117,12 +117,6 @@ pytest tests/test_gold.py -v
 python3 tests/validate_pipeline.py
 ```
 
-##  Documentation
-
-- [Main README](data-engineering-pipeline/README.md) - Detailed pipeline documentation
-- [Java Installation Guide](data-engineering-pipeline/JAVA_INSTALLATION.md) - Setup instructions
-- [Configuration Guide](data-engineering-pipeline/config/pipeline_config.yaml) - Pipeline settings
-
 ##  Design Decisions
 
 1. **PySpark over Pandas**: Scalability and production readiness
