@@ -1,0 +1,31 @@
+state,priority,ticket_count
+Canceled,1,28
+Canceled,2,62
+Canceled,3,220
+Canceled,4,156
+Canceled,5,47
+Closed,1,92
+Closed,2,199
+Closed,3,897
+Closed,4,577
+Closed,5,162
+In Progress,1,164
+In Progress,2,336
+In Progress,3,1591
+In Progress,4,1067
+In Progress,5,364
+New,1,53
+New,2,98
+New,3,472
+New,4,294
+New,5,124
+On Hold,1,28
+On Hold,2,61
+On Hold,3,216
+On Hold,4,154
+On Hold,5,52
+Resolved,1,116
+Resolved,2,247
+Resolved,3,1141
+Resolved,4,739
+Resolved,5,243

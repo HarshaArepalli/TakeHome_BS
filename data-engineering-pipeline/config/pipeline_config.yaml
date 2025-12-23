@@ -1,0 +1,45 @@
+# Data Engineering Pipeline Configuration
+# This file contains configuration parameters for the Bronze -> Silver -> Gold pipeline
+
+# Data paths
+paths:
+  raw_data: "data/raw/servicenow_incidents_10k.csv"
+  bronze: "data/bronze/incidents"
+  silver: "data/silver/incidents"
+  gold: "data/gold/ticket_summary"
+
+# Spark configuration
+spark:
+  app_name: "ServiceNow Data Pipeline"
+  driver_memory: "4g"
+  shuffle_partitions: 2
+  adaptive_enabled: true
+  log_level: "WARN"
+
+# Data quality rules
+data_quality:
+  required_columns:
+    - number
+    - sys_id
+  date_format: "M/d/yyyy H:mm"
+  
+# Transformation settings
+transformations:
+  silver:
+    normalize_column_names: true
+    remove_invalid_records: true
+    convert_date_fields: true
+    standardize_text_fields: true
+    convert_boolean_fields: true
+    convert_numeric_fields: true
+  
+  gold:
+    aggregation_groups:
+      - state
+      - priority
+
+# Pipeline settings
+pipeline:
+  mode: "overwrite"
+  enable_logging: true
+  enable_metrics: false

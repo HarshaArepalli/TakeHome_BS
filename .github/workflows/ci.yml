@@ -1,0 +1,62 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        cd data-engineering-pipeline
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Lint with pylint
+      run: |
+        cd data-engineering-pipeline
+        pylint src/ --disable=C0114,C0115,C0116,R0913 --max-line-length=120 || true
+      continue-on-error: true
+    
+    - name: Format check with black
+      run: |
+        cd data-engineering-pipeline
+        black --check src/ --line-length=100 || true
+      continue-on-error: true
+    
+    - name: Run unit tests
+      run: |
+        cd data-engineering-pipeline
+        pytest tests/ -v --tb=short
+    
+    - name: Validate pipeline structure
+      run: |
+        cd data-engineering-pipeline
+        python tests/validate_pipeline.py || true
+      continue-on-error: true
